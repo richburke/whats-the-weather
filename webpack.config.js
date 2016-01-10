@@ -13,7 +13,7 @@ var definePlugin = new webpack.DefinePlugin({
 
 module.exports = {
   context: __dirname + '/src',
-  entry: './main.jsx',
+  entry: './app.js',
   output: {
     path: __dirname + '/public', // This is where images AND js will go
     publicPath: 'http://localhost:8000', // This is used to generate URLs to e.g. images
