@@ -12,19 +12,48 @@ var definePlugin = new webpack.DefinePlugin({
 });
 
 module.exports = {
-  entry: './src/main.jsx',
+  context: __dirname + '/src',
+  entry: './main.jsx',
   output: {
-    path: './public', // This is where images AND js will go
+    path: __dirname + '/public', // This is where images AND js will go
     publicPath: 'http://localhost:8000', // This is used to generate URLs to e.g. images
     filename: 'bundle.js'
   },
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'babel-loader' },
-      { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }, // use ! to chain loaders
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
-      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }, // inline base64 URLs for <=8k images, direct URLs for the rest
-      { test: /\.js?$/, loader: 'eslint-loader', exclude:/node_modules/}
+      {
+        test: /\.js$/,
+        include: [
+          __dirname + '/src'
+        ],
+        loader: 'babel-loader'
+      },
+      { test: /\.less$/,
+        include: [
+          __dirname + '/src'
+        ],
+        loader: 'style-loader!css-loader!less-loader'
+      },
+      { test: /\.css$/,
+        include: [
+          __dirname + '/src'
+        ],
+        loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.(png|jpg)$/,
+        include: [
+          __dirname + '/src/images'
+        ],
+        loader: 'url-loader?limit=8192'
+      }, // inline base64 URLs for <=8k images, direct URLs for the rest
+      {
+        test: /\.js?$/,
+        include: [
+          __dirname + '/src'
+        ],
+        loader: 'eslint-loader'
+      }
     ]
   },
   resolve: {
