@@ -1,7 +1,7 @@
 {
-  "name": "tutorial_egghead_getting-started-with-redux",
+  "name": "whats-the-weather",
   "version": "1.0.0",
-  "description": "There are 3 types of drones. 1 Normal drones.  Drop bombs.  Bombs move more slowly, do less damage.  <strike>   Normal   drones can only drop bombs when they're bombbay door is open--in other words,   every other step.</strike> 2 Next level drones.  Shoot bolts.  Bolts move more quickly, do more damage. 3.High fliers.  They only appear occasionally.  They shoot lasers, which are   are nearly instantaneous.  If destroyed they award the highest points.",
+  "description": "Fetches the current weather for select cities.",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,17 +9,24 @@
   "author": "rich.burke.dev@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.8.1",
+    "bootstrap": "^3.3.6",
+    "history": "^1.17.0",
+    "moment": "^2.11.1",
     "react": "^0.14.6",
+    "react-autosuggest": "^3.3.4",
     "react-dom": "^0.14.6",
     "react-redux": "^4.0.6",
+    "react-router": "^1.0.3",
     "redux": "^3.0.5"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
+    "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.1",
+    "babel-plugin-transform-object-rest-spread": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
-    "bootstrap": "^3.3.6",
     "eslint": "^1.10.3",
     "eslint-loader": "^1.2.0",
     "eslint-plugin-react": "^3.14.0",

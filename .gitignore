@@ -3,5 +3,5 @@
 *.idea
 node_modules/*
 build/*
+resources/*
 assets/.DS_Store
-

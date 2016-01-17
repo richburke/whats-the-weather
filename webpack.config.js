@@ -28,7 +28,14 @@ module.exports = {
         ],
         loader: 'babel',
         query: {
-          presets: ['react', 'es2015']
+          presets: [
+          {
+             plugins: [
+               "transform-object-rest-spread"
+             ]
+           },
+          'react',
+          'es2015']
         }
       },
       { test: /\.less$/,
@@ -60,7 +67,6 @@ module.exports = {
     ]
   },
   resolve: {
-    // you can now require('file') instead of require('file.coffee')
     extensions: ['', '.js', '.jsx', '.json']
   }
 };
