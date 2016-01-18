@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactRedux from 'react-redux';
 import Autosuggest from 'react-autosuggest';
-import axios from 'axios';
+import SearchUtils from '../model/SearchUtils';
+import Retriever from '../model/Retriever';
 
-const { connect } = ReactRedux;
+const {connect} = ReactRedux;
+
+const UPDATE_INPUT_VALUE = 'UPDATE_INPUT_VALUE';
+const CLEAR_SUGGESTIONS = 'CLEAR_SUGGESTIONS';
+const MAYBE_UPDATE_SUGGESTIONS = 'MAYBE_UPDATE_SUGGESTIONS';
+const LOAD_SUGGESTIONS_BEGIN = 'LOAD_SUGGESTIONS_BEGIN';
 
 function getSuggestionValue(suggestion) {
   return suggestion.name;
@@ -42,48 +48,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-
-function getMatchingLocations(value) {
-  const escapedValue = escapeRegexCharacters(value.trim());
-
-  if (escapedValue === '') {
-    return [];
-  }
-
-  const regex = new RegExp('^' + escapedValue, 'i');
-
-  return locations.filter(loc => regex.test(loc.name));
-}
-
-/* ----------- */
-/*    Utils    */
-/* ----------- */
-
-// https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
-function escapeRegexCharacters(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-/* --------------------------- */
-/*    Redux action creators    */
-/* --------------------------- */
-
-let locations = [];
-
-axios.get('locations.json')
-  .then(function(data) {
-    locations = data.data;
-  });
-
-const UPDATE_INPUT_VALUE = 'UPDATE_INPUT_VALUE';
-const CLEAR_SUGGESTIONS = 'CLEAR_SUGGESTIONS';
-const MAYBE_UPDATE_SUGGESTIONS = 'MAYBE_UPDATE_SUGGESTIONS';
-const LOAD_SUGGESTIONS_BEGIN = 'LOAD_SUGGESTIONS_BEGIN';
-
 function loadSuggestions(value) {
   return dispatch => {
     dispatch(loadSuggestionsBegin());
-    dispatch(maybeUpdateSuggestions(getMatchingLocations(value), value));
+    dispatch(maybeUpdateSuggestions(SearchUtils.getMatches(Retriever.getLocations(), value), value));
   };
 }
 
@@ -114,8 +82,6 @@ function maybeUpdateSuggestions(suggestions, value) {
   };
 }
 
-
-
 class SearchBoxUI extends React.Component {
 
   componentDidMount() {
@@ -136,7 +102,7 @@ class SearchBoxUI extends React.Component {
 
   render() {
     const props = this.props;
-    const { value, suggestions, isLoading, onChange, onSuggestionsUpdateRequested } = props;
+    const {value, suggestions, isLoading, onChange, onSuggestionsUpdateRequested} = props;
     const inputProps = {
       placeholder: "Enter your city",
       value,

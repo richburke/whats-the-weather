@@ -4,7 +4,7 @@ import SearchBox from './SearchBox';
 import ContentContainer from './ContentContainer';
 
 const { Provider } = ReactRedux;
-let store = require('../model/model');
+let store = require('../model/reducer');
 
 class Main extends React.Component {
   render() {
