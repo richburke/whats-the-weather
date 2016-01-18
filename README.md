@@ -5,7 +5,7 @@ Fetches the weather for select cities.
 
 ### How to use
 * Enter a city into the input area.
-* Choose between metric (Celcius) and imperial (Fahrenheit) units.
+* Choose between metric (Celsius) and imperial (Fahrenheit) units.
 
 ### Deployment instructions
 1. Get the respository, either via `git` or by downloading a zip file.

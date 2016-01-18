@@ -1,22 +1,38 @@
 [
-{
-  "key": "new york",
-  "name": "New York"
-},
-{
-  "key": "chicago",
-  "name": "Chicago"
-},
-{
-  "key": "seattle",
-  "name": "Seattle"
-},
-{
-  "key": "atlanta",
-  "name": "Atlanta"
-},
-{
-  "key": "san diego",
-  "name": "San Diego"
-}
+  {
+    "key": "atlanta",
+    "name": "Atlanta"
+  },
+  {
+    "key": "chicago",
+    "name": "Chicago"
+  },
+  {
+    "key": "denver",
+    "name": "Denver"
+  },
+  {
+    "key": "london",
+    "name": "London"
+  },
+  {
+    "key": "new york",
+    "name": "New York"
+  },
+  {
+    "key": "philadelphia",
+    "name": "Philadelphia"
+  },
+  {
+    "key": "san diego",
+    "name": "San Diego"
+  },
+  {
+    "key": "seattle",
+    "name": "Seattle"
+  },
+  {
+    "key": "vancouver",
+    "name": "Vancouver"
+  }
 ]
