@@ -40,7 +40,7 @@ class UnitChooser extends React.Component {
     store.dispatch({
       type: 'UPDATE_UNITS',
       value
-    })
+    });
   }
 
   render() {
@@ -53,10 +53,11 @@ class UnitChooser extends React.Component {
       let value = item.value;
       let name = item.name;
       let selected = store_state.units === value;
+      let key = 'units' + index;
 
       return (
         <label className={"btn btn-default " + (selected ? 'active' : '')}>
-          <input type="radio" name="units" value="{value}" key={index} checked={selected} onChange={this.update.bind(this, value)} />{name}
+          <input type="radio" name="units" value={value} key={key} checked={selected} onChange={this.update.bind(this, value)} />{name}
         </label>
       );
     });

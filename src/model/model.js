@@ -1,9 +1,9 @@
-let Redux = require('redux');
-let axios = require('axios');
-let moment = require('moment');
+import {createStore, applyMiddleware}  from 'redux';
+import axios from 'axios';
+import DataFormatter from './DataFormatter';
 
-const { createStore, applyMiddleware } = Redux;
 
+// const = Redux;
 
 const UPDATE_INPUT_VALUE = 'UPDATE_INPUT_VALUE';
 const CLEAR_SUGGESTIONS = 'CLEAR_SUGGESTIONS';
@@ -11,6 +11,7 @@ const MAYBE_UPDATE_SUGGESTIONS = 'MAYBE_UPDATE_SUGGESTIONS';
 const LOAD_SUGGESTIONS_BEGIN = 'LOAD_SUGGESTIONS_BEGIN';
 const UPDATE_WEATHER_DATA = 'UPDATE_WEATHER_DATA';
 const UPDATE_UNITS = 'UPDATE_UNITS';
+const CLEAR_LOCATION = 'CLEAR_LOCATION';
 
 const BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
 const API_KEY = 'f116aad972a652d9b306d7ba2c2e9345';
@@ -20,10 +21,15 @@ const initialState = {
   suggestions: getMatchingLocations(''),
   isLoading: false,
   location: '',
+  haveData: false,
   units: 'metric',
-  weatherData: {
+  raw: {
     metric: {},
     imperial: {}
+  },
+  display: {
+    metric: DataFormatter.getDefault(),
+    imperial: DataFormatter.getDefault()
   }
 };
 
@@ -37,14 +43,17 @@ axios.get('locations.json')
 function retrieveLocationData(loc) {
   axios.all([getMetric(loc), getImperial(loc)])
     .then(axios.spread(function(metric, imperial) {
-      displayMetric(metric);
-      displayImperial(imperial);
+      const state = store.getState();
 
       store.dispatch({
         type: 'UPDATE_WEATHER_DATA',
-        data: {
+        raw: {
           metric,
           imperial
+        },
+        display: {
+          metric: DataFormatter.format(metric.data, 'metric', state),
+          imperial: DataFormatter.format(imperial.data, 'imperial', state)
         }
       });
     }));
@@ -56,33 +65,6 @@ function getMetric(loc) {
 
 function getImperial(loc) {
   return axios.get(`${BASE_URL}?q=${loc}&units=imperial&APPID=${API_KEY}`);
-}
-
-function displayMetric(data) {
-  console.log('METRIC', data);
-  console.log('Current temperature: ' + data.data.main.temp + 'o^C');
-  console.log('Today\s high: ' + data.data.main.temp_max + 'o^C');
-  console.log('Today\s low: ' + data.data.main.temp_min + 'o^C');
-  console.log('Humidity: ' + data.data.main.humidity + '%');
-  console.log('Pressure: ' + data.data.main.pressure + ' (mb)');
-
-  console.log(moment(data.dt).format('MMMM Do, YYYY h:mm a'));
-
-  // console.log(data.data.sys.sunrise);
-  // var dt = new Date(data.data.sys.sunrise);
-  // console.log(dt.getHours());
-  // console.log('Sunrise: ' + moment(Number(data.data.sys.sunrise)));
-  // console.log('Sunrise: ' + moment(Number(data.data.sys.sunrise)).format('MMMM Do, YYYY h:mm a'));
-  // console.log('Sunset: ' + moment(data.data.sys.sunset).format('MMMM Do, YYYY h:mm a'));
-}
-
-function displayImperial(data) {
-  console.log('IMPERIAL');
-  console.log('Current temperature: ' + data.data.main.temp + 'o^F');
-  console.log('Today\s high: ' + data.data.main.temp_max + 'o^F');
-  console.log('Today\s low: ' + data.data.main.temp_min + 'o^F');
-  console.log('Humidity: ' + data.data.main.humidity + '%');
-  console.log('Pressure: ' + data.data.main.pressure + ' (mb)');
 }
 
 function thunkMiddleware(_ref) {
@@ -100,7 +82,6 @@ function thunkMiddleware(_ref) {
  * @todo
  * DUPLICATED!!!
  */
-
  // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
  function escapeRegexCharacters(str) {
    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -180,7 +161,9 @@ function reducer(state = initialState, action = {}) {
     case UPDATE_WEATHER_DATA:
       return {
         ...state,
-        weatherData: action.data
+        raw: action.raw,
+        display: action.display,
+        haveData: true
       };
 
     case UPDATE_UNITS:
@@ -189,10 +172,33 @@ function reducer(state = initialState, action = {}) {
         units: action.value
       };
 
+    case CLEAR_LOCATION:
+      return {
+        ...state,
+        value: '',
+        location: '',
+        haveData: false,
+        raw: {
+          metric: {},
+          imperial: {}
+        },
+        display: {
+          metric: DataFormatter.getDefault(),
+          imperial: DataFormatter.getDefault()
+        }
+      };
+
     default:
       return state;
   }
 }
+
+// const weather = store_state.weatherData;
+// const units = store_state.units;
+// const data = weather[units].data || {};
+// const have_data = Object.keys(data).length > 0;
+//
+// let display_data = this.formatData(data);
 
 const store = applyMiddleware(thunkMiddleware)(createStore)(reducer);
 module.exports = store;

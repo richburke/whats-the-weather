@@ -38,13 +38,6 @@ span.title-weather {
   font-size: 1.8em;
 }
 
-.location-details {
-  margin-top: 15px;
-  width: 400px;
-  height: auto;
-  background-color: rgba(255, 255, 255, 0.5);
-}
-
 .datapair .datapair-label {
   display: inline-block;
 }
@@ -84,7 +77,17 @@ section {
  }
 
  .location-details {
-
+   margin-top: 15px;
+   width: 400px;
+   height: auto;
+   background-color: rgba(255, 255, 255, 0.5);
+   opacity: 0;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+ }
+ .location-details.show {
+   opacity: 1;
  }
  .location-details-content {
    padding: 20px 20px 20px 20px;
@@ -124,10 +127,17 @@ section {
    background-color: transparent;
    margin-left: 15px;
  }
- .search span.find {
+ .search span.clear {
+   color: #7aa7e2;
    font-size: 16px;
    padding-top: 4px;
    cursor: pointer;
+   visibility: hidden;
+   float: right;
+   margin-right: 3px;
+ }
+ .search span.clear.show {
+   visibility: visible;
  }
 
  .react-autosuggest__container {

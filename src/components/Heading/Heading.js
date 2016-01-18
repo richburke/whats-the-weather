@@ -9,8 +9,8 @@ class Heading extends React.Component {
 
     return (
       <div className="heading heading-city-details">
-        <HeadingCity city={city}></HeadingCity>
-        <HeadingDate dt={dt}></HeadingDate>
+        <HeadingCity city={city} />
+        <HeadingDate dt={dt} />
       </div>
     );
   }

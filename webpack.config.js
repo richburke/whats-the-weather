@@ -16,9 +16,10 @@ module.exports = {
   entry: './app.js',
   output: {
     path: __dirname + '/public', // This is where images AND js will go
-    publicPath: 'http://localhost:8000', // This is used to generate URLs to e.g. images
+    // publicPath: 'http://localhost:8000', // This is used to generate URLs to e.g. images
     filename: 'bundle.js'
   },
+  devtool: 'source-map',
   module: {
     loaders: [
       {

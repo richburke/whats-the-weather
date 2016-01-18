@@ -88,8 +88,6 @@ function loadSuggestions(value) {
 }
 
 function updateInputValue(value) {
-console.log('updating input value', value);
-
   return {
     type: UPDATE_INPUT_VALUE,
     value
@@ -119,13 +117,35 @@ function maybeUpdateSuggestions(suggestions, value) {
 
 
 class SearchBoxUI extends React.Component {
+
+  componentDidMount() {
+    const {store} = this.context;
+    this.unsubscribe = store.subscribe(() => this.forceUpdate());
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  clear() {
+    const {store} = this.context;
+    store.dispatch({
+      type: 'CLEAR_LOCATION'
+    });
+  }
+
   render() {
-    const { value, suggestions, isLoading, onChange, onSuggestionsUpdateRequested } = this.props;
+    const props = this.props;
+    const { value, suggestions, isLoading, onChange, onSuggestionsUpdateRequested } = props;
     const inputProps = {
       placeholder: "Enter your city",
       value,
       onChange
     };
+
+    const {store} = this.context;
+    const store_state = store.getState();
+    const have_data = store_state.haveData;
 
     return (
         <div className="search input-group">
@@ -135,11 +155,17 @@ class SearchBoxUI extends React.Component {
                        renderSuggestion={renderSuggestion}
                        inputProps={inputProps} />
 
-          <span className="fa fa-chevron-circle-right find"></span>
+          <span
+            className={"fa fa-times-circle clear " + (have_data ? 'show' : '')}
+            onClick={this.clear.bind(this)}></span>
         </div>
     );
   }
 }
+
+SearchBoxUI.contextTypes = {
+  store: React.PropTypes.object
+};
 
 const SearchBox = connect(mapStateToProps, mapDispatchToProps)(SearchBoxUI);
 export default SearchBox;
