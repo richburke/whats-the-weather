@@ -108,7 +108,13 @@ section {
  .location-details-content .col-md-7,
  .location-details-content .col-md-6,
  .location-details-content .col-md-5,
- .location-details-content .col-md-4 {
+ .location-details-content .col-md-4,
+ .location-details-content .col-sm-12,
+ .location-details-content .col-sm-8,
+ .location-details-content .col-sm-7,
+ .location-details-content .col-sm-6,
+ .location-details-content .col-sm-5,
+ .location-details-content .col-sm-4 {
    padding-left: 0;
    padding-right: 0;
  }

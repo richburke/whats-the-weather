@@ -29,30 +29,30 @@ class ContentContainer extends React.Component {
         <div className="location-details-content">
 
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-sm-12">
               <Heading city={formatted_data.city} dt={formatted_data.dt} />
             </div>
           </div>
 
           <div className="row row-description">
-            <div className="col-md-7">
+            <div className="col-sm-6">
               <HeadingDescription description={formatted_data.description} />
             </div>
 
-            <div className="col-md-5">
+            <div className="col-sm-6">
               <UnitChooser />
            </div>
           </div>
 
           <div className="row details-temperature">
-            <div className="col-md-7">
+            <div className="col-sm-6">
               <DataPair
                 label="Temp"
                 value={formatted_data.temperature.value}
                 valueSuffix={' ' + formatted_data.temperature.units}
               />
             </div>
-            <div className="col-md-5">
+            <div className="col-sm-6">
               <DataPair
                 label="Hi/Lo"
                 value={formatted_data.hiLo.value}
@@ -62,14 +62,14 @@ class ContentContainer extends React.Component {
           </div>
 
           <div className="row details-atmosphere">
-            <div className="col-md-7">
+            <div className="col-sm-6">
               <DataPair
                 label="Humidity"
                 value={formatted_data.humidity.value}
                 valueSuffix={formatted_data.humidity.units}
               />
             </div>
-            <div className="col-md-5">
+            <div className="col-sm-6">
               <DataPair
                 label="Pressure"
                 value={formatted_data.pressure.value}
@@ -79,13 +79,13 @@ class ContentContainer extends React.Component {
           </div>
 
           <div className="row details-sun">
-            <div className="col-md-7">
+            <div className="col-sm-6">
               <DataPair
                 label="Sunrise"
                 value={formatted_data.sunrise}
               />
             </div>
-            <div className="col-md-5">
+            <div className="col-sm-6">
               <DataPair
                 label="Sunset"
                 value={formatted_data.sunset}

@@ -7,7 +7,7 @@ class DataPairValue extends React.Component {
     let suffix = this.props.suffix;
 
     return (
-      <div className="datapair-value col-md-7">
+      <div className="datapair-value col-sm-6">
         <span className="prefix">{prefix}</span>{value}<span className="suffix">{suffix}</span>
       </div>
     );
